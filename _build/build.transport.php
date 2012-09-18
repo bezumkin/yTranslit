@@ -1,6 +1,6 @@
 <?php
 /**
- * @package translit
+ * @package ytranslit
  * @subpackage build
  */
 $mtime = microtime();
@@ -10,10 +10,10 @@ $tstart = $mtime;
 set_time_limit(0);
 
 /* define package */
-define('PKG_NAME','translit');
+define('PKG_NAME','yTranslit');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta');
+define('PKG_RELEASE','pl');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';
@@ -38,7 +38,7 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 $modx->loadClass('transport.modPackageBuilder', '', false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME, PKG_VERSION, PKG_RELEASE);
-$builder->registerNamespace('translit', false, true, '{core_path}components/'.PKG_NAME_LOWER.'/');
+$builder->registerNamespace('ytranslit', false, true, '{core_path}components/'.PKG_NAME_LOWER.'/');
 
 /* add in file vehicle */
 $attributes = array (
@@ -57,6 +57,7 @@ unset ($c, $vehicle, $attributes);
 
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes(array(
+    'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
 ));

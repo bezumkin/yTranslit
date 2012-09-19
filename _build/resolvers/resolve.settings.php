@@ -40,12 +40,41 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 			$translitUrl->fromArray(array(
 				'key' => 'friendly_alias_ytranslit_url',
 				'name' => 'Url of translation service',
+				'description' => 'By default - it is Yandex.Translate',
 				'namespace' => 'core',
 				'xtype' => 'textfield',
 				'value' => 'http://translate.yandex.net/api/v1/tr.json/translate?lang=ru-en&text=',
 				'area' => 'furls',
 			), '', true);
 			$success = $translitUrl->save();
+		}
+
+		if (!$translitTimeout = $transport->xpdo->getObject('modSystemSetting', array('key' => 'friendly_alias_ytranslit_timeout'))) {
+			$translitTimeout = $transport->xpdo->newObject('modSystemSetting');
+			$translitTimeout->fromArray(array(
+				'key' => 'friendly_alias_ytranslit_timeout',
+				'name' => 'Timeout in seconds for yTranslit',
+				'description' => 'Timeout in seconds for waiting of yTranslit service',
+				'namespace' => 'core',
+				'xtype' => 'numberfield',
+				'value' => 1,
+				'area' => 'furls',
+			), '', true);
+			$success = $translitTimeout->save();
+		}
+
+		if (!$translitExclude = $transport->xpdo->getObject('modSystemSetting', array('key' => 'friendly_alias_ytranslit_exclude'))) {
+			$translitExclude = $transport->xpdo->newObject('modSystemSetting');
+			$translitExclude->fromArray(array(
+				'key' => 'friendly_alias_ytranslit_exclude',
+				'name' => 'Regexp for exclude pagetitles',
+				'description' => 'If pagetitle matching this regex - it is not sended to service',
+				'namespace' => 'core',
+				'xtype' => 'textfield',
+				'value' => '/^[_-a-zA-z\d\s\:\(\)]+$/i',
+				'area' => 'furls',
+			), '', true);
+			$success = $translitExclude->save();
 		}
 		break;
 	case xPDOTransport::ACTION_UNINSTALL:
@@ -61,6 +90,14 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
 		if ($translitUrl = $transport->xpdo->getObject('modSystemSetting', array('key' => 'friendly_alias_ytranslit_url'))) {
 			$success = $translitUrl->remove();
+		}
+
+		if ($translitTimeout = $transport->xpdo->getObject('modSystemSetting', array('key' => 'friendly_alias_ytranslit_timeout'))) {
+			$success = $translitTimeout->remove();
+		}
+
+		if ($translitExclude = $transport->xpdo->getObject('modSystemSetting', array('key' => 'friendly_alias_ytranslit_exclude'))) {
+			$success = $translitExclude->remove();
 		}
 		break;
 }

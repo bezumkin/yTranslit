@@ -1,10 +1,12 @@
 <?php
-/**
- * Define the MODX path constants necessary for core installation
- *
- * @package bannery
- * @subpackage build
- */
+
+/* define package */
+define('PKG_NAME','yTranslit');
+define('PKG_NAME_LOWER',strtolower(PKG_NAME));
+define('PKG_VERSION','1.1.0');
+define('PKG_RELEASE','pl');
+
+
 define('MODX_BASE_PATH', dirname(dirname(dirname(__FILE__))) . '/');
 define('MODX_CORE_PATH', MODX_BASE_PATH . 'core/');
 define('MODX_MANAGER_PATH', MODX_BASE_PATH . 'manager/');
@@ -16,3 +18,6 @@ define('MODX_CORE_URL', MODX_BASE_URL . 'core/');
 define('MODX_MANAGER_URL', MODX_BASE_URL . 'manager/');
 define('MODX_CONNECTORS_URL', MODX_BASE_URL . 'connectors/');
 define('MODX_ASSETS_URL', MODX_BASE_URL . 'assets/');
+
+/* define build options */
+define('BUILD_SETTING_UPDATE', false);

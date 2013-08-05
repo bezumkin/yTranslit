@@ -1,10 +1,13 @@
 Changelog for yTranslit.
 
+1.1.0 pl (05.08.2013)
+============
+- Support of Yandex translate api 1.5. Api key is now required!
 
 1.0.1 pl (19.09.2012)
 ============
 - Added system parameter friendly_alias_ytranslit_timeout, for CURL timeout
-- Added system parameter friendly_alias_ytranslit_exclude, for those pagetitle, that will not be sended on service.
+- Added system parameter friendly_alias_ytranslit_exclude, for those pagetitle, that will not be send on service.
 
 1.0.0 pl (18.09.212)
 ============

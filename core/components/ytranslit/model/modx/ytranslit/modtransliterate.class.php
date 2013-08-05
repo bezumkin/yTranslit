@@ -43,30 +43,38 @@ class modTransliterate {
 			return $string;
 		}
 		
-		$service = $this->modx->getOption('friendly_alias_ytranslit_url', '', 'http://translate.yandex.net/api/v1/tr.json/translate?lang=ru-en&text=');
-		$request = $service . urlencode($string);
-		if (function_exists('curl_init')) {
-			$timeout = $this->modx->getOption('friendly_alias_ytranslit_timeout', '', 1);
-			$ch = curl_init();  
-			curl_setopt($ch, CURLOPT_URL, $request);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, $timeout);
-			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-			$result = curl_exec($ch);
+		$service = $this->modx->getOption('friendly_alias_ytranslit_url', '', 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=[[+key]]&lang=ru-en&text=', true);
+		$key = trim($this->modx->getOption('friendly_alias_ytranslit_key', null, ''));
+		if (empty($key)) {
+			$this->modx->log(modX::LOG_LEVEL_ERROR, '[yTranslit] You must specify the API key! Please, get it from http://api.yandex.ru/key/form.xml?service=trnsl.');
+			return $string;
 		}
 		else {
-			$result = file_get_contents($request);
+			$request = str_replace('[[+key]]', $key, $service) . urlencode($string);
+			if (function_exists('curl_init')) {
+				$timeout = $this->modx->getOption('friendly_alias_ytranslit_timeout', '', 1, true);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $request);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, $timeout);
+				curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+				$result = curl_exec($ch);
+			}
+			else {
+				$result = file_get_contents($request);
+			}
+
+			$arr = $this->modx->fromJSON($result);
+			if (!is_array($arr)) {
+				$this->modx->log(modX::LOG_LEVEL_ERROR, "[yTranslit] Service unavailable.\nRequest: $request.\nResponse: $result");
+				return $string;
+			}
+			else if ($arr['code'] != 200 || empty($arr['text'][0])) {
+				$this->modx->log(modX::LOG_LEVEL_ERROR, '[yTranslit] Service returned an error. ' . print_r($arr,1));
+				return $string;
+			}
+			else {
+				return $arr['text'][0];
+			}
 		}
-		
-		$arr = json_decode($result, 1);
-		if (!is_array($arr)) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR, 'yTranslit: service unavailable. Request: ' . $request . '. Response: ' . $result);
-			return $string;
-		}
-		if ($arr['code'] != 200 || empty($arr['text'][0])) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR, 'yTranslit: service returned an error.' . print_r($arr,1));
-			return $string;
-		}
-		
-		return $arr['text'][0];
 	}
 }

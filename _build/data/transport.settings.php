@@ -23,7 +23,7 @@ $tmp = array(
 		,'value' => 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=[[+key]]&lang=ru-en&text='
 	)
 	,'ytranslit_timeout' => array(
-		'xtype' => 'nemberfield'
+		'xtype' => 'numberfield'
 		,'value' => 1
 	)
 	,'ytranslit_exclude' => array(

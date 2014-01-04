@@ -10,4 +10,4 @@ $_lang['setting_friendly_alias_ytranslit_exclude'] = 'Exclude pagetitles';
 $_lang['setting_friendly_alias_ytranslit_exclude_desc'] = 'Specify regular expression which pages do not need to process.';
 
 $_lang['setting_friendly_alias_ytranslit_key'] = 'Yandex API key';
-$_lang['setting_friendly_alias_ytranslit_key_desc'] = 'You must set your free API key taken from http://api.yandex.ru/key/form.xml?service=trnsl';
+$_lang['setting_friendly_alias_ytranslit_key_desc'] = 'You must set your free API key <a href="http://api.yandex.ru/key/form.xml?service=trnsl">taken from Yandex</a>';

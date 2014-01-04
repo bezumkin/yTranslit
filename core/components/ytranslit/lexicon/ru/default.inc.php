@@ -10,4 +10,4 @@ $_lang['setting_friendly_alias_ytranslit_exclude'] = 'Исключить стр�
 $_lang['setting_friendly_alias_ytranslit_exclude_desc'] = 'Укажите регулярное выражения, какие страницы не нужно отправлять на перевод. По умолчанию - все pagetitle на английском.';
 
 $_lang['setting_friendly_alias_ytranslit_key'] = 'Ключ API Яндекса';
-$_lang['setting_friendly_alias_ytranslit_key_desc'] = 'Для запросов вы должны указать ключ API, <a href="http://api.yandex.ru/key/form.xml?service=trnsl">полученный в Яндекс</a>';
+$_lang['setting_friendly_alias_ytranslit_key_desc'] = 'Для запросов вы должны указать ключ API, <a href="http://api.yandex.ru/key/form.xml?service=trnsl" target="_blank">полученный в Яндекс</a>';

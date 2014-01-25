@@ -38,11 +38,20 @@ class modTransliterate {
 	 * @return string The translated string.
 	 */
 	public function translate($string) {
-		$exclude = $this->modx->getOption('friendly_alias_ytranslit_exclude', '', '/^[_-a-zA-z\d\s\:\(\)]+$/i');
+		$exclude = $this->modx->getOption('friendly_alias_ytranslit_exclude', '', '/^[_-a-zA-z\d\s\:\(\)]+$/i', true);
 		if (preg_match($exclude, $string)) {
 			return $string;
 		}
-		
+
+		$extension = '';
+		if (preg_match('#\.[0-9a-z]+$#i', $string, $matches)) {
+			$extension = $matches[0];
+			$string = preg_replace('#'.$extension.'$#', '', $string);
+		}
+
+		$trim = $this->modx->getOption('friendly_alias_trim_chars', null, '/.-_', true);
+		$string = str_replace(str_split($trim), ' ', $string);
+
 		$service = $this->modx->getOption('friendly_alias_ytranslit_url', '', 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=[[+key]]&lang=ru-en&text=', true);
 		$key = trim($this->modx->getOption('friendly_alias_ytranslit_key', null, ''));
 		if (empty($key)) {
@@ -66,15 +75,15 @@ class modTransliterate {
 			$arr = $this->modx->fromJSON($result);
 			if (!is_array($arr)) {
 				$this->modx->log(modX::LOG_LEVEL_ERROR, "[yTranslit] Service unavailable.\nRequest: $request.\nResponse: $result");
-				return $string;
 			}
-			else if ($arr['code'] != 200 || empty($arr['text'][0])) {
-				$this->modx->log(modX::LOG_LEVEL_ERROR, '[yTranslit] Service returned an error. ' . print_r($arr,1));
-				return $string;
+			elseif ($arr['code'] != 200 || empty($arr['text'][0])) {
+				$this->modx->log(modX::LOG_LEVEL_ERROR, '[yTranslit] Service returned an error. ' . print_r($arr, true));
 			}
 			else {
-				return $arr['text'][0];
+				$string = $arr['text'][0];
 			}
+
+			return $string . strtolower($extension);
 		}
 	}
 }

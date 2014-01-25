@@ -1,5 +1,9 @@
 Changelog for yTranslit.
 
+1.1.1 pl (25.01.2014)
+============
+- Improved processing of filenames.
+
 1.1.0 pl1 (04.01.2014)
 ============
 - Some small fixes

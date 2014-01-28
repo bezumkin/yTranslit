@@ -64,7 +64,7 @@ class modTransliterate {
 				$timeout = $this->modx->getOption('friendly_alias_ytranslit_timeout', '', 1, true);
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $request);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, $timeout);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 				$result = curl_exec($ch);
 			}

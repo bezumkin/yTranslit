@@ -1,5 +1,9 @@
 Changelog for yTranslit.
 
+1.1.2 pl (05.12.2014)
+============
+- Updated description of ytranslit_key setting.
+
 1.1.1 pl (25.01.2014)
 ============
 - Improved processing of filenames.

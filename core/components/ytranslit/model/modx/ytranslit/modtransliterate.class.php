@@ -38,6 +38,8 @@ class modTransliterate {
 	 * @return string The translated string.
 	 */
 	public function translate($string) {
+		if(empty($string)) {return;}
+		
 		$exclude = $this->modx->getOption('friendly_alias_ytranslit_exclude', '', '/^[_-a-zA-z\d\s\:\(\)]+$/i', true);
 		if (preg_match($exclude, $string)) {
 			return $string;
@@ -62,11 +64,21 @@ class modTransliterate {
 			$request = str_replace('[[+key]]', $key, $service) . urlencode($string);
 			if (function_exists('curl_init')) {
 				$timeout = $this->modx->getOption('friendly_alias_ytranslit_timeout', '', 1, true);
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $request);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-				$result = curl_exec($ch);
+				// $ch = curl_init();
+				// curl_setopt($ch, CURLOPT_URL, $request);
+				// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				// curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+				// $result = curl_exec($ch);
+				
+				$url = parse_url($request);
+				
+				parse_str($url['query'], $params);
+				
+				$client = $this->modx->getService('rest.modRestCurlClient');
+				$result = $client->request($url['scheme'] .'://'. $url['host'], $url['path'], 'GET', $params, array(
+					'curlopt_timeout'			=> $timeout,
+					'curlopt_returntransfer'	=> 1,
+				));
 			}
 			else {
 				$result = file_get_contents($request);

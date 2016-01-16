@@ -3,6 +3,8 @@ Changelog for yTranslit.
 1.2.0 pl (16.01.2016)
 ============
 - [#3] [#4] Fixed wrong log entries in MODX 2.4.2
+- Code refactor to PSR-2.
+- Correct save and restore existing translit system settings.
 
 1.1.2 pl (05.12.2014)
 ============

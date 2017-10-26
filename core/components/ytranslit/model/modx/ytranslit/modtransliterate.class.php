@@ -57,7 +57,7 @@ class modTransliterate
         }
 
         $trim = $this->modx->getOption('friendly_alias_trim_chars', null, '/.-_', true);
-        $string = str_replace(str_split($trim), ' ', $string);
+        $string = mb_ereg_replace(str_split($trim), ' ', $string);
 
         $service = $this->modx->getOption('friendly_alias_ytranslit_url', null,
             'https://translate.yandex.net/api/v1.5/tr.json/translate?key=[[+key]]&lang=ru-en&text=', true);
